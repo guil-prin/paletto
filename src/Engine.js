@@ -6,3 +6,5 @@ var Engine = function () {
 
 // public methods
 };
+
+var board = new Engine();
