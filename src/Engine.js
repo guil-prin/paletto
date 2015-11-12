@@ -13,9 +13,11 @@ var Engine = function () {
     ];
     var player = 1, nbMarbles = 36, pickedColor, i, j;
     var marblesPerPlayer = new Array(2);
-    for(i = 0 ; i < 2 ; i++) {
+    for(i = 1 ; i <= 2 ; i++) {
         marblesPerPlayer[i] = {'b' : 0, 'g' : 0, 'w' : 0, 's' : 0, 'r' : 0, 'y' : 0};
     };
+
+// public methods
 
     this.getPlayer = function() {
         return player;
@@ -33,6 +35,17 @@ var Engine = function () {
         return marblesPerPlayer[player][color];
     };
 
+    this.getGridPositions = function (position) {
+        var c1 = (position.charCodeAt(0)) - 65, c2 = position.charCodeAt(1) - 49;
+        return {posx : c2,
+            posy : c1
+        };
+    };
+
+    this.switchPlayer = function() {
+        player = (player === 1 ? 2 : 1);
+    }
+
     this.pickColor = function(color) {
         pickedColor = color;
     };
@@ -43,13 +56,6 @@ var Engine = function () {
         grid[pos.posx][pos.posy] = undefined;
         marblesPerPlayer[player][token]++;
         nbMarbles--;
-    };
-
-    this.getGridPositions = function (position) {
-        var c1 = (position.charCodeAt(0)) - 65, c2 = position.charCodeAt(1) - 49;
-        return {posx : c2,
-                posy : c1
-               };
     };
 
     this.isColoredAdjacent = function(i, j) {
@@ -78,8 +84,6 @@ var Engine = function () {
         return (left || right);
     };
 
-
-// public methods
 };
 
 var board = new Engine();
