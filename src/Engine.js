@@ -26,7 +26,7 @@ var Engine = function () {
     };
 
     this.isColoredAdjacent = function(i, j) {
-        return this.sameHorizontalColor(i,j) && this.sameVerticalColor(i,j);
+        return (this.sameHorizontalColor(i,j) || this.sameVerticalColor(i,j));
     };
 
     this.sameHorizontalColor = function(i, j) {
@@ -37,7 +37,7 @@ var Engine = function () {
         if(i < 6) {
             right = (grid[i][j] === grid[i+1][j] ? true : false);
         }
-        return (left && right);
+        return (left || right);
     };
 
     this.sameVerticalColor = function(i, j) {
@@ -48,7 +48,7 @@ var Engine = function () {
         if(j < 6) {
             right = (grid[i][j] === grid[i][j+1] ? true : false);
         }
-        return (left && right);
+        return (left || right);
     };
 
 
