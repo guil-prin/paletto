@@ -11,3 +11,8 @@ PalettoTestCase.prototype.testStory1 = function () {
     }
 };
 
+PalettoTestCase.prototype.testStory2 = function () {
+    assertEquals(board.getPlayer(), 1);
+    board.pickColor('y');
+    assertEquals(board.getPickedColor(), 'y');
+};
