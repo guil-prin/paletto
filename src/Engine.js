@@ -11,6 +11,19 @@ var Engine = function () {
     ['w', 'g', 'y', 'b', 'y', 'g'],
     ['y', 's', 'b', 'r', 'g', 'b']
     ];
+    var player = 1, pickedColor;
+
+    this.getPlayer = function() {
+        return player;
+    };
+
+    this.getPickedColor = function() {
+        return pickedColor;
+    };
+
+    this.pickColor = function(color) {
+        pickedColor = color;
+    };
 
     this.isColoredAdjacent = function(i, j) {
         return this.sameHorizontalColor(i,j) && this.sameVerticalColor(i,j);
@@ -37,6 +50,8 @@ var Engine = function () {
         }
         return (left && right);
     };
+
+
 // public methods
 };
 
