@@ -31,3 +31,9 @@ PalettoTestCase.prototype.testStory4 = function () {
     assertEquals(board.getNbMarbles(), 33);
     assertEquals(board.getNbColoredMarbles('b'), 2);
 };
+
+PalettoTestCase.prototype.testStory5 = function () {
+    board.cheatForStepFive();
+    board.pickColor('s');
+    AssertException(function(){board.pickMarble("C3")}, "Broken board if played");
+};
