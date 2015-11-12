@@ -22,3 +22,12 @@ PalettoTestCase.prototype.testStory3 = function () {
     assertEquals(board.getNbMarbles(), 35);
     assertEquals(board.getNbColoredMarbles('y'), 1);
 };
+
+PalettoTestCase.prototype.testStory4 = function () {
+    board.switchPlayer();
+    board.pickColor('b');
+    board.pickMarble("A1");
+    board.pickMarble("F6");
+    assertEquals(board.getNbMarbles(), 33);
+    assertEquals(board.getNbColoredMarbles('b'), 2);
+};
