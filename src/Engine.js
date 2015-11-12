@@ -1,5 +1,9 @@
 'use strict';
 
+var NotTwoNeighboursMaxToken = function () {
+    this.name = "This token can't be taken !";
+};
+
 var Engine = function () {
 
 // private attributes and methods
@@ -52,11 +56,29 @@ var Engine = function () {
 
     this.pickMarble = function(position) {
         var pos = this.getGridPositions(position);
-        var token = grid[pos.posx][pos.posy];
-        grid[pos.posx][pos.posy] = undefined;
-        marblesPerPlayer[player][token]++;
-        nbMarbles--;
+        if((this.nbNeighbours(pos.posx, pos.posy) == 2) || (this.nbNeighbours(pos.posx, pos.posy) == 1)) {
+            var token = grid[pos.posx][pos.posy];
+            grid[pos.posx][pos.posy] = undefined;
+            marblesPerPlayer[player][token]++;
+            nbMarbles--;
+        }
+        else {
+            throw new NotTwoNeighboursMaxToken();
+        }
     };
+
+    this.nbNeighbours = function(i, j) {
+        var nbNeigh = 0;
+        if(grid[i+1] !== undefined && grid[i+1][j] !== undefined)
+            nbNeigh++;
+        if(grid[i-1] !== undefined && grid[i-1][j] !== undefined)
+            nbNeigh++;
+        if(grid[i][j+1] !== undefined)
+            nbNeigh++;
+        if(grid[i][j-1] !== undefined)
+            nbNeigh++;
+        return nbNeigh;
+    }
 
     this.isColoredAdjacent = function(i, j) {
         return (this.sameHorizontalColor(i,j) || this.sameVerticalColor(i,j));
