@@ -11,7 +11,11 @@ var Engine = function () {
     ['w', 'g', 'y', 'b', 'y', 'g'],
     ['y', 's', 'b', 'r', 'g', 'b']
     ];
-    var player = 1, pickedColor;
+    var player = 1, nbMarbles = 36, pickedColor, i, j;
+    var marblesPerPlayer = new Array(2);
+    for(i = 0 ; i < 2 ; i++) {
+        marblesPerPlayer[i] = {'b' : 0, 'g' : 0, 'w' : 0, 's' : 0, 'r' : 0, 'y' : 0};
+    };
 
     this.getPlayer = function() {
         return player;
@@ -21,8 +25,31 @@ var Engine = function () {
         return pickedColor;
     };
 
+    this.getNbMarbles = function() {
+        return nbMarbles;
+    };
+
+    this.getNbColoredMarbles = function(color) {
+        return marblesPerPlayer[player][color];
+    };
+
     this.pickColor = function(color) {
         pickedColor = color;
+    };
+
+    this.pickMarble = function(position) {
+        var pos = this.getGridPositions(position);
+        var token = grid[pos.posx][pos.posy];
+        grid[pos.posx][pos.posy] = undefined;
+        marblesPerPlayer[player][token]++;
+        nbMarbles--;
+    };
+
+    this.getGridPositions = function (position) {
+        var c1 = (position.charCodeAt(0)) - 65, c2 = position.charCodeAt(1) - 49;
+        return {posx : c2,
+                posy : c1
+               };
     };
 
     this.isColoredAdjacent = function(i, j) {
