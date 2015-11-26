@@ -35,5 +35,6 @@ PalettoTestCase.prototype.testStory4 = function () {
 PalettoTestCase.prototype.testStory5 = function () {
     board.cheatForStepFive();
     board.pickColor('s');
-    AssertException(function(){board.pickMarble("C3")}, "Broken board if played");
+    assertEquals(board.getMarble(2, 2), 's');
+    assertException(function(){board.pickMarble("C3")}, "Broken board if played");
 };
