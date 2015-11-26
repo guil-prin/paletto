@@ -12,12 +12,12 @@ var Engine = function () {
 
 // private attributes and methods
     var grid = [
-    ['b', 'g', 'w', 's', 'r', 'w'],
-    ['y', 'w', 'g', 'r', 'y', 's'],
-    ['s', 'y', 's', 'w', 'b', 'r'],
-    ['r', 'b', 'r', 'g', 's', 'w'],
-    ['w', 'g', 'y', 'b', 'y', 'g'],
-    ['y', 's', 'b', 'r', 'g', 'b']
+    ['b', 'y', 's', 'r', 'w', 'y'],
+    ['g', 'w', 'y', 'b', 'g', 's'],
+    ['w', 'g', 's', 'r', 'y', 'b'],
+    ['s', 'r', 'w', 'g', 'b', 'r'],
+    ['r', 'y', 'b', 's', 'y', 'g'],
+    ['w', 's', 'r', 'w', 'g', 'b']
     ];
     var player = 1, nbMarbles = 36, pickedColor, i, j;
     var marblesPerPlayer = new Array(2);
@@ -39,8 +39,9 @@ var Engine = function () {
         return nbMarbles;
     };
 
-    this.getMarble = function(i, j) {
-        return grid[i][j];
+    this.getMarble = function(position) {
+        var pos = this.getGridPositions(position);
+        return grid[pos.posx][pos.posy];
     };
 
     this.getNbColoredMarbles = function(color) {
@@ -68,16 +69,22 @@ var Engine = function () {
 
     this.pickMarble = function(position) {
         var pos = this.getGridPositions(position);
-        if((this.nbNeighbours(pos.posx, pos.posy) === 2) || (this.nbNeighbours(pos.posx, pos.posy) === 1)) {
-            if(this.areStillConnected(pos.posx, pos.posy)) { // TODO
-                var token = grid[pos.posy][pos.posx];
-                grid[pos.posy][pos.posx] = undefined;
+        if(this.nbNeighbours(pos.posx, pos.posy) === 2){
+            if(this.areStillConnected(pos.posx, pos.posy)) {
+                var token = grid[pos.posx][pos.posy];
+                grid[pos.posx][pos.posy] = undefined;
                 marblesPerPlayer[player][token]++;
                 nbMarbles--;
             }
             else {
                 throw new BrokenBoardIfPlayed();
             }
+        }
+        else if(this.nbNeighbours(pos.posx, pos.posy) === 1) {
+            var token = grid[pos.posx][pos.posy];
+            grid[pos.posx][pos.posy] = undefined;
+            marblesPerPlayer[player][token]++;
+            nbMarbles--;
         }
         else {
             throw new NotTwoNeighboursMaxToken();
@@ -93,11 +100,11 @@ var Engine = function () {
         var neighs2 = this.neighboursOf(pos2.posx, pos2.posy);
         for(k = 0 ; k < neighs1.length ; k++) {
             for(l = 0 ; l < neighs2.length ; l++) {
-                if(neighs1[k] === neighs2[l])
+                if(neighs1[k] === neighs2[l] && neighs1[k] !== this.valueFromGridPosition(i, j))
                     ok++;
             }
         }
-        if(ok == 2) {
+        if(ok >= 1) {
             return true;
         }
         return false;
@@ -162,6 +169,15 @@ var Engine = function () {
         return (left || right);
     };
 
+    this.checkWinner = function(player) {
+        for (var marble in marblesPerPlayer[player]) {
+            if(marblesPerPlayer[player][marble] == 6) {
+                return true;
+            }
+        }
+        return false;
+    };
+
     this.cheatForStepFive = function() {
         grid = [
             [undefined, undefined, undefined, 's', 'r', 'w'],
@@ -172,6 +188,21 @@ var Engine = function () {
             [undefined, undefined, 'b', undefined, undefined, undefined]
         ];
     };
+
+    this.reset = function() {
+        grid = [
+            ['b', 'y', 's', 'r', 'w', 'y'],
+            ['g', 'w', 'y', 'b', 'g', 's'],
+            ['w', 'g', 's', 'r', 'y', 'b'],
+            ['s', 'r', 'w', 'g', 'b', 'r'],
+            ['r', 'y', 'b', 's', 'y', 'g'],
+            ['w', 's', 'r', 'w', 'g', 'b']
+        ];
+        player = 1, nbMarbles = 36, pickedColor;
+        for(i = 1 ; i <= 2 ; i++) {
+            marblesPerPlayer[i] = {'b' : 0, 'g' : 0, 'w' : 0, 's' : 0, 'r' : 0, 'y' : 0};
+        }
+    }
 
 };
 

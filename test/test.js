@@ -35,7 +35,6 @@ PalettoTestCase.prototype.testStory4 = function () {
 PalettoTestCase.prototype.testStory5 = function () {
     board.cheatForStepFive();
     board.pickColor('s');
-    assertEquals(board.getMarble(2, 2), 's');
     assertException(function(){board.pickMarble("C3")}, "Broken board if played");
 };
 
@@ -55,13 +54,14 @@ PalettoTestCase.prototype.testStory6 = function () {
     board.pickMarble("A6");
     board.switchPlayer();
     board.pickColor('s');
-    board.pickMarble("F3");
+    board.pickMarble("A3");
     board.switchPlayer();
     board.pickColor('w');
     board.pickMarble("A5");
     board.pickMarble("F4");
     board.pickMarble("F1");
     board.pickMarble("C1");
+    board.pickMarble("B2");
     board.switchPlayer();
     board.pickColor('r');
     board.pickMarble("E1");
@@ -70,7 +70,7 @@ PalettoTestCase.prototype.testStory6 = function () {
     board.pickMarble("A4");
     board.switchPlayer();
     board.pickColor('s');
-    board.pickMarble("D3");
+    board.pickMarble("D1");
     board.pickMarble("F2");
     board.pickMarble("B6");
     board.switchPlayer();
@@ -85,4 +85,5 @@ PalettoTestCase.prototype.testStory6 = function () {
     board.pickMarble("D5");
     board.pickMarble("E3");
     assertEquals(board.checkWinner(1), true);
+
 };
