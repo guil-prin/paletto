@@ -169,13 +169,15 @@ var Engine = function () {
         return (left || right);
     };
 
-    this.checkWinner = function(player) {
-        for (var marble in marblesPerPlayer[player]) {
-            if(marblesPerPlayer[player][marble] == 6) {
+    this.checkWinner = function(p) {
+        for (var marble in marblesPerPlayer[p]) {
+            if(marblesPerPlayer[p][marble] == 6) {
                 return true;
             }
         }
-        return false;
+        if(nbMarbles === 0) {
+            return player === p;
+        }
     };
 
     this.cheatForStepFive = function() {
