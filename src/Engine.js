@@ -171,7 +171,7 @@ var Engine = function () {
             [undefined, 'g', 'y', undefined, undefined, undefined],
             [undefined, undefined, 'b', undefined, undefined, undefined]
         ];
-    }
+    };
 
 };
 
